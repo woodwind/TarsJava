@@ -14,18 +14,24 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.qq.tars.spring.schema;
+package com.qq.tars.spring.annotation;
 
-import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
+import com.qq.tars.protocol.annotation.Servant;
+import org.springframework.core.annotation.AliasFor;
+import org.springframework.stereotype.Component;
 
-import com.qq.tars.spring.config.ListenerConfig;
-import com.qq.tars.spring.config.ServantConfig;
+import java.lang.annotation.*;
 
-public class TarsNamespaceHandler extends NamespaceHandlerSupport {
+@Target({ ElementType.TYPE })
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Servant
+@Component
+@Inherited
+public @interface TarsServant {
+    @AliasFor("name")
+    String value() default "";
 
-    @Override
-    public void init() {
-        registerBeanDefinitionParser("servant", new TarsBeanDefinitionParser(ServantConfig.class));
-        registerBeanDefinitionParser("listener", new TarsBeanDefinitionParser(ListenerConfig.class));
-    }
+    @AliasFor("value")
+    String name() default "";
 }

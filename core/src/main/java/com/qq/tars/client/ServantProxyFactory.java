@@ -36,7 +36,7 @@ class ServantProxyFactory {
     }
 
     public <T> Object getServantProxy(Class<T> clazz, String objName, String setDivision, ServantProxyConfig servantProxyConfig,
-                                      LoadBalance loadBalance, ProtocolInvoker<T> protocolInvoker) {
+                                      LoadBalance<T> loadBalance, ProtocolInvoker<T> protocolInvoker) {
         String key = setDivision != null ? clazz.getSimpleName() + objName + setDivision : clazz.getSimpleName() + objName;
         Object proxy = cache.get(key);
         if (proxy == null) {

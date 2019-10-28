@@ -127,7 +127,6 @@ public class ServantClient {
 
     public <T extends ServantResponse> T invokeWithSync(ServantRequest request) throws IOException {
         Ticket<T> ticket = null;
-        T response = null;
         try {
             ensureConnected();
             request.setInvokeStatus(InvokeStatus.SYNC_CALL);
@@ -136,13 +135,13 @@ public class ServantClient {
             Session current = session;
             current.write(request);
             if (!ticket.await(this.syncTimeout, TimeUnit.MILLISECONDS)) {
-                if (current != null && current.getStatus() != SessionStatus.CLIENT_CONNECTED) {
+                if (current.getStatus() != SessionStatus.CLIENT_CONNECTED) {
                     throw new IOException("Connection reset by peer|" + this.getAddress());
                 } else {
                     throw new TimeoutException("the operation has timeout, " + this.syncTimeout + "ms|" + this.getAddress());
                 }
             }
-            response = ticket.response();
+            T response = ticket.response();
             if (response == null) {
                 throw new IOException("the operation is failed.");
             }
@@ -154,7 +153,7 @@ public class ServantClient {
                 TicketManager.removeTicket(ticket.getTicketNumber());
             }
         }
-        return response;
+        return null;
     }
 
     public <T extends ServantResponse> void invokeWithAsync(ServantRequest request, Callback<T> callback) throws IOException {

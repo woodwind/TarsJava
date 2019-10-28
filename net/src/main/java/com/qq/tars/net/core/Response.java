@@ -16,10 +16,10 @@
 
 package com.qq.tars.net.core;
 
-import java.io.IOException;
-
 import com.qq.tars.net.client.ticket.Ticket;
 import com.qq.tars.net.protocol.ProtocolException;
+
+import java.io.IOException;
 
 public abstract class Response {
 
@@ -46,7 +46,7 @@ public abstract class Response {
         return asyncMode;
     }
 
-    public void asyncCallStart() throws IOException {
+    public void asyncCallStart() {
         this.asyncMode = true;
     }
 

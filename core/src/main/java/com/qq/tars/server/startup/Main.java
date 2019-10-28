@@ -30,10 +30,6 @@ public class Main {
         URL servantXML = Main.class.getClassLoader().getResource("servants.xml");
         if (servantXML != null) {
             context = new XmlAppContext();
-        } else if (Main.class.getClassLoader().getResource("servants-spring.xml") != null){
-            System.out.println("[SERVER] find servants-spring.xml, use Spring mode.");
-            Class clazz = Class.forName("com.qq.tars.server.apps.SpringAppContext");
-            context = (AppContext) clazz.newInstance();
         } else {
             System.out.println("[SERVER] servants profile does not exist, start failed.");
             throw new TarsException("servants profile does not exist");

@@ -18,8 +18,8 @@
 package com.qq.tars.client.rpc.loadbalance;
 
 import com.qq.tars.client.ServantProxyConfig;
-import com.qq.tars.client.cluster.ServantInvokerAliveStat;
 import com.qq.tars.client.cluster.ServantInvokerAliveChecker;
+import com.qq.tars.client.cluster.ServantInvokerAliveStat;
 import com.qq.tars.client.rpc.InvokerComparator;
 import com.qq.tars.common.util.CollectionUtils;
 import com.qq.tars.rpc.common.InvokeContext;
@@ -31,7 +31,6 @@ import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -116,7 +115,7 @@ public class RoundRobinLoadBalance<T> implements LoadBalance<T> {
             return;
         }
         final List<Invoker<T>> sortedInvokersTmp = new ArrayList<Invoker<T>>(invokers);
-        Collections.sort(sortedInvokersTmp, comparator);
+        sortedInvokersTmp.sort(comparator);
         sortedInvokersCache = sortedInvokersTmp;
         staticWeightInvokersCache = LoadBalanceHelper.buildStaticWeightList(sortedInvokersTmp, config);
         logger.info("{} refresh RoundRobinLoadBalance's invoker cache done, staticWeightInvokersCache size= {}, sortedInvokersCache size={}",

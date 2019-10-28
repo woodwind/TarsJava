@@ -46,6 +46,7 @@ public abstract class ServantProtocolInvoker<T> implements ProtocolInvoker<T> {
     protected volatile SelectorManager selectorManager = null;
     protected volatile ConcurrentHashSet<Invoker<T>> allInvoker = new ConcurrentHashSet<>();
 
+
     public ServantProtocolInvoker(Class<T> api, ServantProxyConfig config, ProtocolFactory protocolFactory,
                                   ThreadPoolExecutor threadPoolExecutor) {
         this.api = api;
@@ -115,10 +116,10 @@ public abstract class ServantProtocolInvoker<T> implements ProtocolInvoker<T> {
                 try {
                     boolean active = url.getParameter(Constants.TARS_CLIENT_ACTIVE, false);
                     if (active) {
-                        logger.info("try to init invoker|active={} |{}", active, url.toIdentityString());
+                        logger.info("try to init invoker|active={} |{}", true, url.toIdentityString());
                         needRefreshInvokers.add(create(api, url));
                     } else {
-                        logger.info("inactive invoker can't to init|active={}|{}", active, url.toIdentityString());
+                        logger.info("inactive invoker can't to init|active={}|{}", false, url.toIdentityString());
                     }
                 } catch (Throwable e) {
                     logger.error("error occurred on init invoker|" + url.toIdentityString(), e);
@@ -132,7 +133,7 @@ public abstract class ServantProtocolInvoker<T> implements ProtocolInvoker<T> {
     }
 
     private void destroy(Collection<Invoker<T>> invokers) {
-        for (Invoker<?> invoker : invokers) {
+        for (Invoker<T> invoker : invokers) {
             if (invoker != null) {
                 logger.info("destroy reference|" + invoker);
                 try {

@@ -16,13 +16,13 @@
 
 package com.qq.tars.net.client.ticket;
 
-import java.util.Collection;
-import java.util.concurrent.*;
-
 import com.qq.tars.net.client.Callback;
 import com.qq.tars.net.core.Request;
 import com.qq.tars.net.core.Session;
 import com.qq.tars.net.core.nio.SelectorManager;
+
+import java.util.Collection;
+import java.util.concurrent.*;
 
 public class TicketManager {
 

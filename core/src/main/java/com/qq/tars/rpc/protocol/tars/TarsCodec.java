@@ -16,7 +16,6 @@
 
 package com.qq.tars.rpc.protocol.tars;
 
-import com.qq.tars.common.support.ClassLoaderManager;
 import com.qq.tars.common.support.Holder;
 import com.qq.tars.common.util.CollectionUtils;
 import com.qq.tars.common.util.Constants;
@@ -40,11 +39,7 @@ import com.qq.tars.rpc.protocol.tup.UniAttribute;
 
 import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class TarsCodec extends Codec {
 
@@ -293,10 +288,7 @@ public class TarsCodec extends Codec {
         }
 
         TarsInputStream jis = request.getInputStream();
-        ClassLoader oldClassLoader = null;
         try {
-            oldClassLoader = Thread.currentThread().getContextClassLoader();
-            Thread.currentThread().setContextClassLoader(resolveProtocolClassLoader());
             String methodName = request.getFunctionName();
             byte[] data = jis.read(TarsHelper.STAMP_BYTE_ARRAY, 7, true);//数据
             int timeout = jis.read(TarsHelper.STAMP_INT.intValue(), 8, true);//超时时间
@@ -363,10 +355,6 @@ public class TarsCodec extends Codec {
                 request.setRet(TarsHelper.SERVERDECODEERR);
             }
             System.err.println(TarsUtil.getHexdump(jis.getBs()));
-        } finally {
-            if (oldClassLoader != null) {
-                Thread.currentThread().setContextClassLoader(oldClassLoader);
-            }
         }
         return request;
     }
@@ -534,14 +522,6 @@ public class TarsCodec extends Codec {
         }
 
         return list.toArray();
-    }
-
-    protected ClassLoader resolveProtocolClassLoader() {
-        ClassLoader classLoader = ClassLoaderManager.getInstance().getClassLoader("");
-        if (classLoader == null) {
-            classLoader = Thread.currentThread().getContextClassLoader();
-        }
-        return classLoader;
     }
 
     public String getProtocol() {

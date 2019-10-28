@@ -24,6 +24,5 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Component
-@Deprecated
 public @interface TarsListener {
 }

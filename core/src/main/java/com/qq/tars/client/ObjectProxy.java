@@ -51,7 +51,7 @@ public final class ObjectProxy<T> implements ServantProxy, InvocationHandler {
 
     private volatile ServantProxyConfig servantProxyConfig;
 
-    private LoadBalance loadBalancer;
+    private LoadBalance<T> loadBalancer;
     private ProtocolInvoker<T> protocolInvoker;
     private ScheduledFuture<?> statReportFuture;
     private ScheduledFuture<?> queryRefreshFuture;
@@ -60,7 +60,7 @@ public final class ObjectProxy<T> implements ServantProxy, InvocationHandler {
 
     private final Random random = new Random(System.currentTimeMillis() / 1000);
 
-    public ObjectProxy(Class<T> api, ServantProxyConfig servantProxyConfig, LoadBalance loadBalance,
+    public ObjectProxy(Class<T> api, ServantProxyConfig servantProxyConfig, LoadBalance<T> loadBalance,
                        ProtocolInvoker<T> protocolInvoker, Communicator communicator) {
         this.api = api;
 //        this.objName = objName;
